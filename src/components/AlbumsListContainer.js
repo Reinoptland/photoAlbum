@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as request from 'superagent'
 import AlbumsList from './AlbumsList'
 import { connect } from 'react-redux'
-import { addAlbum } from '../actions/album'
+import { addAlbum, setAlbums, getAlbums } from '../actions/album'
 
 const sleep = time => new Promise(
     resolve => setTimeout(() => resolve(`I waited for ${time} ms`), time)
@@ -12,13 +12,7 @@ class AlbumsListContainer extends React.Component {
   state = {}
 
   componentDidMount() {
-    request('https://jsonplaceholder.typicode.com/albums')
-      .then(response => {
-          response.body.forEach(album => this.props.addAlbum(album))
-      })
-
-    this.props.addAlbum(1, 'My holiday in Blegium')
-    this.props.addAlbum(2, 'My holiday in Grrrmany')
+    this.props.getAlbums()
   }
 
   render() {
@@ -34,4 +28,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { addAlbum })(AlbumsListContainer)
+export default connect(mapStateToProps, { addAlbum, setAlbums, getAlbums })(AlbumsListContainer)
